@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D7A0BCAA-7EA6-4859-9563-269F7B39CF30</string>
+	<key>IDESourceControlProjectName</key>
+	<string>AlterNavigationBar</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>CDF6E747AA9F630799A72BC313FED11E85EFD741</key>
+		<string>https://github.com/whyefa/AlterNavigationBar.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>AlterNavigationBar.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>CDF6E747AA9F630799A72BC313FED11E85EFD741</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/whyefa/AlterNavigationBar.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>CDF6E747AA9F630799A72BC313FED11E85EFD741</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CDF6E747AA9F630799A72BC313FED11E85EFD741</string>
+			<key>IDESourceControlWCCName</key>
+			<string>AlterNavigationBar</string>
+		</dict>
+	</array>
+</dict>
+</plist>

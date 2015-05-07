@@ -14,6 +14,7 @@
 		51B58AD01AFAF44B00C801DD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 51B58ACE1AFAF44B00C801DD /* LaunchScreen.xib */; };
 		51B58ADC1AFAF44B00C801DD /* AlterNavigationBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B58ADB1AFAF44B00C801DD /* AlterNavigationBarTests.swift */; };
 		51B58AE61AFAF85900C801DD /* table_header.png in Resources */ = {isa = PBXBuildFile; fileRef = 51B58AE51AFAF85900C801DD /* table_header.png */; };
+		B22388741AFB11CC00C1C8FE /* navi_back_image.png in Resources */ = {isa = PBXBuildFile; fileRef = B22388731AFB11CC00C1C8FE /* navi_back_image.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		51B58ADA1AFAF44B00C801DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51B58ADB1AFAF44B00C801DD /* AlterNavigationBarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlterNavigationBarTests.swift; sourceTree = "<group>"; };
 		51B58AE51AFAF85900C801DD /* table_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = table_header.png; sourceTree = "<group>"; };
+		B22388731AFB11CC00C1C8FE /* navi_back_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navi_back_image.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 			children = (
 				51B58AC51AFAF44B00C801DD /* AppDelegate.swift */,
 				51B58AE51AFAF85900C801DD /* table_header.png */,
+				B22388731AFB11CC00C1C8FE /* navi_back_image.png */,
 				51B58AC71AFAF44B00C801DD /* ViewController.swift */,
 				51B58AC91AFAF44B00C801DD /* Main.storyboard */,
 				51B58ACC1AFAF44B00C801DD /* Images.xcassets */,
@@ -199,6 +202,7 @@
 				51B58AD01AFAF44B00C801DD /* LaunchScreen.xib in Resources */,
 				51B58ACD1AFAF44B00C801DD /* Images.xcassets in Resources */,
 				51B58AE61AFAF85900C801DD /* table_header.png in Resources */,
+				B22388741AFB11CC00C1C8FE /* navi_back_image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +417,7 @@
 				51B58AE11AFAF44B00C801DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		51B58AE21AFAF44B00C801DD /* Build configuration list for PBXNativeTarget "AlterNavigationBarTests" */ = {
 			isa = XCConfigurationList;
@@ -421,6 +426,7 @@
 				51B58AE41AFAF44B00C801DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
