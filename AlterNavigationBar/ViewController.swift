@@ -25,20 +25,30 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     var topBackView: UIView!
     var searchField: UILabel!
     var drection: ScrollDrection?
-    var barColor: UIColor!
+    var originY: CGFloat?
+    var theY: CGFloat?
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.barColor = UIColor(red: 28 / 255, green: 151 / 255, blue: 238 / 255, alpha: 1)
+
 
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navi_back_image.png"), forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage.alloc()
         self.setNavigationItem()
         
-        tableview = UITableView(frame: CGRectMake(0, -64, kScreenWidth, kScreenHeight), style: .Plain)
+        var osVersion: NSString = UIDevice.currentDevice().systemVersion
+        if osVersion.floatValue < 8 {
+            originY = 0
+            theY = 64
+        }else {
+            originY = -64
+            theY = 0
+        }
+        
+        tableview = UITableView(frame: CGRectMake(0, originY!, kScreenWidth, kScreenHeight), style: .Plain)
+        println(originY!)
         tableview.delegate = self
         tableview.dataSource = self
-        UIScrollView
         tableview.backgroundColor = UIColor.lightGrayColor()
         tableview.registerClass(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
         var headerView = UIView(frame: CGRectMake(0, 0, kScreenWidth, 200))
@@ -128,6 +138,12 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         
         4.logo 移动阶段
     */
+    
+    /*
+        拖拽过快
+        会不流畅 bug
+
+    */
     func scrollViewDidScroll(scrollView: UIScrollView) {
         //判断滑动方向
         var currentPosition: CGFloat = tableview.contentOffset.y
@@ -138,26 +154,30 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             lastPosition = currentPosition
             self.drection = ScrollDrection.Down
         }
-        println("偏移量 -> \(currentPosition)")
-
+        
+        var y = 64 + originY!
+        if (UIDevice.currentDevice().systemVersion as NSString ).floatValue < 8 {
+            currentPosition = currentPosition - 64
+            println(currentPosition)
+        }
         //logo 移动
-        if currentPosition >= -64 && currentPosition < 36 {
+        if currentPosition >= -64  && currentPosition < 36  {
             var percentage = (currentPosition + 64) / CGFloat(100)
             centerView.frame = CGRectMake(kScreenWidth/2 - 60, 0 - 64 * percentage, 120, 38)
         }
       
-        if currentPosition >= -64 && currentPosition < 0 {
+        if currentPosition >= -64  && currentPosition < 0  {
             topBackView.backgroundColor = UIColor.clearColor()
             searchBar.frame = CGRectMake(5, 165, kScreenWidth - 10,  30)
 
             searchField.hidden = true
-        }else if currentPosition >= 0 && currentPosition < 37 {
+        }else if currentPosition >= 0  && currentPosition < 37  {
 //            输入框缩放
             var percentage = currentPosition / 37
             searchBar.frame = CGRectMake(5 + 50 * percentage , 165, kScreenWidth - 10 - 100 * percentage, 30)
             searchField.hidden = true
             
-        }else if currentPosition >= 37 && currentPosition < 77 {
+        }else if currentPosition >= 37  && currentPosition < 77 {
 
             /* 
             1.输入框交叉
@@ -177,7 +197,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             searchField.hidden = false
             searchField.frame = CGRectMake(55, 25, kScreenWidth - 110, 30)
             centerView.frame = CGRectMake(kScreenWidth/2 - 60, 0 - 64, 120, 38)
-            topBackView.backgroundColor = barColor
+            topBackView.backgroundColor = UIColor(red: 28/255, green: 141/255, blue: 228/255, alpha: 1)
             searchField.textColor = UIColor.whiteColor()
             searchField.layer.borderColor = UIColor.whiteColor().CGColor
             
@@ -185,12 +205,11 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     }
 
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-         println(__FUNCTION__)
-        if scrollView.contentOffset.y >= 36 && scrollView.contentOffset.y < 76 {
+        if scrollView.contentOffset.y >= (36 + theY!) && scrollView.contentOffset.y < (76 + theY!){
             if self.drection == ScrollDrection.Down {
-                self.tableview.setContentOffset(CGPointMake(0, -64), animated: true)
+                self.tableview.setContentOffset(CGPointMake(0, -64 + theY!), animated: true)
             }else if self.drection == ScrollDrection.Up {
-                self.tableview.setContentOffset(CGPointMake(0, 76), animated: true)
+                self.tableview.setContentOffset(CGPointMake(0, 76 + theY!), animated: true)
             }
         }
     }
