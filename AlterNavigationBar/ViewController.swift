@@ -25,10 +25,11 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     var topBackView: UIView!
     var searchField: UILabel!
     var drection: ScrollDrection?
+    var barColor: UIColor!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        self.barColor = UIColor(red: 28 / 255, green: 151 / 255, blue: 238 / 255, alpha: 1)
 
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "navi_back_image.png"), forBarMetrics: UIBarMetrics.Default)
         self.navigationController?.navigationBar.shadowImage = UIImage.alloc()
@@ -37,17 +38,18 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         tableview = UITableView(frame: CGRectMake(0, -64, kScreenWidth, kScreenHeight), style: .Plain)
         tableview.delegate = self
         tableview.dataSource = self
+        UIScrollView
         tableview.backgroundColor = UIColor.lightGrayColor()
         tableview.registerClass(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
-        var headerView = UIView(frame: CGRectMake(0, 0, kScreenWidth, 180))
+        var headerView = UIView(frame: CGRectMake(0, 0, kScreenWidth, 200))
         headerView.tag = 10086
         headerView.backgroundColor = UIColor.whiteColor()
         
-        var headerImageView = UIImageView(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 140))
+        var headerImageView = UIImageView(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 160))
         headerImageView.image = UIImage(named: "table_header")
         headerView.addSubview(headerImageView)
         
-        searchBar = UILabel(frame: CGRectMake(5, 145, kScreenWidth - 10, 30))
+        searchBar = UILabel(frame: CGRectMake(5, 165, kScreenWidth - 10, 30))
         searchBar.text = "    演员,影片名"
         searchBar.layer.borderWidth = 1
         searchBar.layer.borderColor = UIColor.lightGrayColor().CGColor
@@ -65,18 +67,19 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
  
         
         var rightItem = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showMenu")
-        rightItem.tintColor = UIColor.whiteColor()
+        rightItem.tintColor = UIColor.orangeColor()
         self.navigationItem.rightBarButtonItem = rightItem
         
         var leftItem = UIBarButtonItem(barButtonSystemItem: .Bookmarks, target: self, action: "showMenu")
-        leftItem.tintColor = UIColor.whiteColor()
+        leftItem.tintColor = UIColor.orangeColor()
         self.navigationItem.leftBarButtonItem = leftItem
         
         topBackView = UIView(frame: CGRectMake(0, -20, kScreenWidth, 64))
         topBackView.backgroundColor = UIColor(red: 0.7, green: 0.8, blue: 1, alpha: 0)
+        topBackView.clipsToBounds = true
         self.navigationController?.navigationBar .insertSubview(topBackView, atIndex: 0)
         
-        searchField = UILabel(frame: CGRectMake(55, 25, kScreenWidth - 110, 30))
+        searchField = UILabel(frame: CGRectMake(55, 65, kScreenWidth - 110, 30))
         searchField.text = "    演员,影片名"
         searchField.backgroundColor = UIColor.clearColor()
         searchField.layer.borderColor = UIColor.lightGrayColor().CGColor
@@ -118,8 +121,15 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     }
     
     //MARK: scrollView Delegate
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    /*
+        1.缩放阶段
+        2.转移阶段
+        3.变色阶段
         
+        4.logo 移动阶段
+    */
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        //判断滑动方向
         var currentPosition: CGFloat = tableview.contentOffset.y
         if currentPosition - lastPosition!  > 0.3 {
             lastPosition = currentPosition
@@ -128,48 +138,63 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             lastPosition = currentPosition
             self.drection = ScrollDrection.Down
         }
-        var offset = CGFloat(tableview.contentOffset.y)
+        println("偏移量 -> \(currentPosition)")
 
-        if offset < 55  && offset > 10{
-            var alpha = (offset - 10) / CGFloat(45)
-            topBackView.backgroundColor = UIColor(red: 0.7, green: 0.8, blue: 1, alpha: alpha)
-            centerView.frame = CGRectMake(kScreenWidth/2 - 60, 0 - 64 * alpha, 120, 38)
-        }else if offset > 55 {
-            topBackView.backgroundColor = UIColor(red: 0.7, green: 0.8, blue: 1, alpha: 1)
-        }else if offset < 10 {
-            topBackView.backgroundColor = UIColor(white: 1, alpha: 0)
+        //logo 移动
+        if currentPosition >= -64 && currentPosition < 36 {
+            var percentage = (currentPosition + 64) / CGFloat(100)
+            centerView.frame = CGRectMake(kScreenWidth/2 - 60, 0 - 64 * percentage, 120, 38)
         }
-        
-        if offset > 42 && offset < 54 {
+      
+        if currentPosition >= -64 && currentPosition < 0 {
+            topBackView.backgroundColor = UIColor.clearColor()
+            searchBar.frame = CGRectMake(5, 165, kScreenWidth - 10,  30)
+
+            searchField.hidden = true
+        }else if currentPosition >= 0 && currentPosition < 37 {
+//            输入框缩放
+            var percentage = currentPosition / 37
+            searchBar.frame = CGRectMake(5 + 50 * percentage , 165, kScreenWidth - 10 - 100 * percentage, 30)
+            searchField.hidden = true
             
-            searchField!.hidden = false
-            searchField.layer.borderColor = UIColor(white: 1, alpha: CGFloat((offset - 42) / 12)).CGColor
-            var rect = searchBar.frame
-            rect.origin.y = 25 - (offset - 42) + 13.5
-            searchField.frame = rect
-            println(rect.origin.y)
-        }else if offset > 54 {
-            searchField.layer.borderColor = UIColor.whiteColor().CGColor
-        }else {
-            searchBar.layer.borderColor = UIColor.lightGrayColor().CGColor
-        }
-        if offset > -48 && offset < 8 {
-            var percentage = (offset + 48) / 56
-            searchBar.frame = CGRectMake(5 + 50 * percentage , 145, kScreenWidth - 10 - 100 * percentage, 30)
-        }else if offset < 42 {
-            searchField!.hidden = true
-        }
+        }else if currentPosition >= 37 && currentPosition < 77 {
 
+            /* 
+            1.输入框交叉
+            2.边框颜色
+            3.文字颜色
+            */
+            searchField.hidden = false
+            searchBar.frame = CGRectMake(55, 165, kScreenWidth-110, 30)
+            searchField.frame = CGRectMake(55, 64 - (currentPosition - 37), kScreenWidth - 110, 30)
+            
+            var percent = (currentPosition - 37) / 40
+            searchField.layer.borderColor = UIColor(white: 1, alpha: percent*0.85).CGColor
+            searchField.textColor = UIColor(white: 1, alpha: percent)
+            topBackView.backgroundColor = UIColor(red: 28 / 255, green: 141 / 255, blue: 218 / 255, alpha: percent*0.85)
+            
+        }else if currentPosition >= 77 {
+            searchField.hidden = false
+            searchField.frame = CGRectMake(55, 25, kScreenWidth - 110, 30)
+            centerView.frame = CGRectMake(kScreenWidth/2 - 60, 0 - 64, 120, 38)
+            topBackView.backgroundColor = barColor
+            searchField.textColor = UIColor.whiteColor()
+            searchField.layer.borderColor = UIColor.whiteColor().CGColor
+            
+        }
     }
+
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if scrollView.contentOffset.y > -64 && scrollView.contentOffset.y < 56 {
+         println(__FUNCTION__)
+        if scrollView.contentOffset.y >= 36 && scrollView.contentOffset.y < 76 {
             if self.drection == ScrollDrection.Down {
                 self.tableview.setContentOffset(CGPointMake(0, -64), animated: true)
             }else if self.drection == ScrollDrection.Up {
-                self.tableview.setContentOffset(CGPointMake(0, 56), animated: true)
+                self.tableview.setContentOffset(CGPointMake(0, 76), animated: true)
             }
         }
     }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
